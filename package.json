@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "test:unit": "jest",
-    "test:unit:coverage": "jest --coverage"
+    "test:unit:coverage": "jest --coverage",
+    "test:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
+    "test:e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\""
+
   },
   "dependencies": {
     "next": "14.2.3",
