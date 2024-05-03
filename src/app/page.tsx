@@ -2,10 +2,10 @@
 
 import Table from "@/components/Table";
 import { requestData } from "@/services/axios";
-import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { formatTableData } from "./_utils/functions";
 import { TableDataType } from "./_utils/types";
+import { Button, Main } from "./styles";
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
@@ -20,17 +20,12 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <Main>
       <h1>Home page</h1>
-      <Button
-        variant="contained"
-        size="large"
-        color="secondary"
-        sx={{ fontWeight: "bold" }}
-      >
+      <Button variant="contained" size="large" color="secondary">
         + Abrir Reclamação
       </Button>
       <Table data={apiData} />
-    </main>
+    </Main>
   );
 }
