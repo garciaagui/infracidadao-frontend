@@ -3,5 +3,5 @@ export const HEADERS = [
   { key: "createdAt", label: "Data" },
   { key: "status", label: "Status" },
   { key: "neighborhood", label: "Bairro" },
-  { key: "street", label: "Rua" },
+  { key: "street", label: "Logradouro" },
 ];
