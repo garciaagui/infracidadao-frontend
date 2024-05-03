@@ -11,3 +11,11 @@ export type OccurrenceType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TableDataType = {
+  title: string;
+  neighborhood: string;
+  street: string;
+  status: string;
+  createdAt: string;
+};

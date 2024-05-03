@@ -1,15 +1,9 @@
-export type OccurrenceType = {
-  id: number;
+export type TableDataType = {
   title: string;
-  description: string;
   neighborhood: string;
   street: string;
-  reference?: string;
   status: string;
-  image: string;
-  userId: number;
   createdAt: string;
-  updatedAt: string;
 };
 
 export type TableHeadProps = {
@@ -17,10 +11,10 @@ export type TableHeadProps = {
 };
 
 export type TableBodyProps = {
-  columns: (keyof OccurrenceType)[];
-  data: OccurrenceType[];
+  columns: (keyof TableDataType)[];
+  data: TableDataType[];
 };
 
 export type TableProps = {
-  data: OccurrenceType[];
+  data: TableDataType[];
 };
