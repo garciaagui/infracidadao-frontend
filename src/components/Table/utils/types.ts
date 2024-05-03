@@ -20,3 +20,7 @@ export type TableBodyProps = {
   columns: (keyof OccurrenceType)[];
   data: OccurrenceType[];
 };
+
+export type TableProps = {
+  data: OccurrenceType[];
+};
