@@ -4,15 +4,17 @@ import Table from "@/components/Table";
 import { requestData } from "@/services/axios";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { OccurrenceType } from "./_utils/types";
+import { formatTableData } from "./_utils/functions";
+import { TableDataType } from "./_utils/types";
 
 export default function Home() {
-  const [apiData, setApiData] = useState<OccurrenceType[]>([]);
+  const [apiData, setApiData] = useState<TableDataType[]>([]);
 
   useEffect(() => {
     const fetchApiData = async () => {
-      const occurrences = await requestData("/occurrences");
-      setApiData(occurrences);
+      const data = await requestData("/occurrences");
+      const formattedData = formatTableData(data);
+      setApiData(formattedData);
     };
     fetchApiData();
   }, []);
