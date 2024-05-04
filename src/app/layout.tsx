@@ -1,3 +1,4 @@
+import AuthProvider from "@/context/AuthProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <StyledComponentsRegistry>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-        </StyledComponentsRegistry>
+        <AuthProvider>
+          <StyledComponentsRegistry>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          </StyledComponentsRegistry>
+        </AuthProvider>
       </body>
     </html>
   );
