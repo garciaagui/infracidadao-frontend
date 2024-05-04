@@ -1,6 +1,5 @@
-import { InputHTMLAttributes } from "react"
+import { StandardTextFieldProps } from "@mui/material/TextField";
 
-export type InputProps = {
-  label: string
-  name: string
-} & InputHTMLAttributes<HTMLInputElement>
+export type TextFieldProps = {
+  name: string;
+} & StandardTextFieldProps;

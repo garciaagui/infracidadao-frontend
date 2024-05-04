@@ -1,8 +1,8 @@
 import * as M from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { InputProps } from "../utils/types";
+import { TextFieldProps } from "../utils/types";
 
-export default function TextField(props: InputProps) {
+export default function TextField(props: TextFieldProps) {
   const { label, name } = props;
   const {
     register,
@@ -13,11 +13,11 @@ export default function TextField(props: InputProps) {
 
   return (
     <M.TextField
-      label={label}
       variant="standard"
       error={errors[name] ? true : false}
       helperText={errors[name] && errorMessage}
       {...register(name)}
+      {...props}
     />
   );
 }
