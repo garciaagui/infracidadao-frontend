@@ -35,7 +35,7 @@ export default function Login() {
 
     if (ok) {
       setNotification({ isOpen: true, message: 'Login bem-sucedido!', result: 'success' });
-      router.push('/');
+      router.push('/home');
     } else if (!ok && error) {
       setNotification({ isOpen: true, message: error, result: 'error' });
     }
