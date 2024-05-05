@@ -1,7 +1,8 @@
+import AuthProvider from "@/context/AuthProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import StyledComponentsRegistry from "../lib/registry";
+import StyledComponentsRegistry from "../context/StyledComponentsRegistry";
 import "../styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <StyledComponentsRegistry>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-        </StyledComponentsRegistry>
+        <AuthProvider>
+          <StyledComponentsRegistry>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          </StyledComponentsRegistry>
+        </AuthProvider>
       </body>
     </html>
   );
