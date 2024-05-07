@@ -1,9 +1,9 @@
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useFormContext } from 'react-hook-form';
 import { FileFieldProps } from '../utils/types';
 
-const VisuallyHiddenInput = styled(TextField)({
+const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
   height: 1,
@@ -31,7 +31,7 @@ export default function FileField({ name }: FileFieldProps) {
     <>
       <Button component="label" role={undefined} variant="contained" tabIndex={-1} color="primary">
         Adicione uma imagem
-        <VisuallyHiddenInput type="file" {...register(name)} />
+        <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
       {errors[name] && (
         <p className={MUI_ERROR_INPUT_CLASS} id={MUI_ERROR_INPUT_ID}>
