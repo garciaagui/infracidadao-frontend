@@ -12,17 +12,22 @@ export default function ModalCreateOccurrence({ handleModal, isOpen }: ModalCrea
     resolver: zodResolver(createOccurrenceSchema),
   });
 
-  const { handleSubmit } = occurrenceForm;
+  const { handleSubmit, reset } = occurrenceForm;
 
   const createOccurrence = () => {
     console.log('Reclamação criada com sucesso!');
+  };
+
+  const handleCloseModal = () => {
+    handleModal();
+    reset();
   };
 
   return (
     <Modal open={isOpen}>
       <S.ModalBox>
         <h2>Nova reclamação</h2>
-        <Button onClick={handleModal} variant="contained" color="warning">
+        <Button onClick={handleCloseModal} variant="contained" color="warning">
           Fechar
         </Button>
 
