@@ -1,3 +1,5 @@
-import TextField from "./TextField";
+import FileField from './FileField';
+import Textarea from './Textarea';
+import TextField from './TextField';
 
-export { TextField };
+export { FileField, TextField, Textarea };
