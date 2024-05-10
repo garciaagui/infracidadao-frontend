@@ -8,11 +8,15 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { generateFormData } from './utils/functions';
 import { createOccurrenceSchema } from './utils/schemas';
-import { CreateOccurrenceType, ModalCreateOccurrenceProps } from './utils/types';
+import { CreateOccurrenceType, CustomAxiosError, ModalCreateOccurrenceProps } from './utils/types';
 
-export default function ModalCreateOccurrence({ handleModal, isOpen }: ModalCreateOccurrenceProps) {
-  const { data: session } = useSession()
-  const userId = session?.token.user.id as string
+export default function ModalCreateOccurrence({
+  handleModal,
+  handleNotification,
+  isOpen,
+}: ModalCreateOccurrenceProps) {
+  const { data: session } = useSession();
+  const userId = session?.token.user.id as string;
   const occurrenceForm = useForm<CreateOccurrenceType>({
     resolver: zodResolver(createOccurrenceSchema),
   });
@@ -23,7 +27,14 @@ export default function ModalCreateOccurrence({ handleModal, isOpen }: ModalCrea
     const occurrence = watch();
     const formData = generateFormData(occurrence, userId);
 
-    await requestOccurrenceCreation(formData)
+    try {
+      await requestOccurrenceCreation(formData);
+      handleNotification('Upload bem sucedido', 'success');
+    } catch (err) {
+      const { response } = err as CustomAxiosError;
+      const message = response?.data.message;
+      handleNotification(message, 'error');
+    }
   };
 
   const handleCloseModal = () => {
