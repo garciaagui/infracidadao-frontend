@@ -6,6 +6,7 @@ export type ModalCreateOccurrenceProps = {
   handleModal: () => void;
   handleNotification: (message: string, result: string) => void;
   isOpen: boolean;
+  userId: string;
 };
 
 export type CreateOccurrenceType = z.infer<typeof createOccurrenceSchema>;

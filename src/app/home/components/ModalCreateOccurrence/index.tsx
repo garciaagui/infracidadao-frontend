@@ -3,7 +3,6 @@ import { requestOccurrenceCreation } from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { useSession } from 'next-auth/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { generateFormData } from './utils/functions';
@@ -14,9 +13,8 @@ export default function ModalCreateOccurrence({
   handleModal,
   handleNotification,
   isOpen,
+  userId,
 }: ModalCreateOccurrenceProps) {
-  const { data: session } = useSession();
-  const userId = session?.token.user.id as string;
   const occurrenceForm = useForm<CreateOccurrenceType>({
     resolver: zodResolver(createOccurrenceSchema),
   });
