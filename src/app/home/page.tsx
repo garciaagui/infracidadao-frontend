@@ -3,6 +3,7 @@
 import Notification from '@/components/Notification';
 import Table from '@/components/Table';
 import { requestData } from '@/services/axios';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import ModalCreateOccurrence from './components/ModalCreateOccurrence';
 import { Button, Main } from './styles';
@@ -14,6 +15,10 @@ export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [notification, setNotification] = useState(NOTIFICATION_INITIAL_STATE);
+
+  const { data: session } = useSession();
+  const userId = session?.token.user.id as string;
+  const role = session?.token.user.role as string;
 
   useEffect(() => {
     const fetchApiData = async () => {
@@ -37,14 +42,17 @@ export default function Home() {
   return (
     <Main>
       <h1>Home page</h1>
-      <Button variant="contained" size="large" color="secondary" onClick={handleModal}>
-        + Abrir Reclamação
-      </Button>
+      {role === 'user' && (
+        <Button variant="contained" size="large" color="secondary" onClick={handleModal}>
+          + Abrir Reclamação
+        </Button>
+      )}
       <Table data={apiData} />
       <ModalCreateOccurrence
         isOpen={openModal}
         handleModal={handleModal}
         handleNotification={handleNotification}
+        userId={userId}
       />
       <Notification closeNotification={closeNotification} {...notification} />
     </Main>
