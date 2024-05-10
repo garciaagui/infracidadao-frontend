@@ -23,23 +23,24 @@ export default function ModalCreateOccurrence({
 
   const { handleSubmit, reset, watch } = occurrenceForm;
 
+  const handleCloseModal = () => {
+    handleModal();
+    reset();
+  };
+
   const createOccurrence = async () => {
     const occurrence = watch();
     const formData = generateFormData(occurrence, userId);
 
     try {
       await requestOccurrenceCreation(formData);
-      handleNotification('Upload bem sucedido', 'success');
+      handleNotification('Reclamação registrada!', 'success');
+      handleCloseModal();
     } catch (err) {
       const { response } = err as CustomAxiosError;
       const message = response?.data.message;
       handleNotification(message, 'error');
     }
-  };
-
-  const handleCloseModal = () => {
-    handleModal();
-    reset();
   };
 
   return (
