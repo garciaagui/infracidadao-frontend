@@ -1,5 +1,5 @@
-import * as M from "@mui/material";
-import styled from "styled-components";
+import * as Mui from '@mui/material';
+import styled from 'styled-components';
 
 export const Main = styled.main`
   display: grid;
@@ -8,7 +8,7 @@ export const Main = styled.main`
   row-gap: 2rem;
 `;
 
-export const Button = styled(M.Button)`
+export const Button = styled(Mui.Button)`
   font-weight: bold;
   justify-self: end;
 `;

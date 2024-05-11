@@ -45,33 +45,40 @@ export default function ModalCreateOccurrence({
 
   return (
     <Modal open={isOpen}>
-      <S.ModalBox>
-        <h2>Nova reclamação</h2>
-        <Button onClick={handleCloseModal} variant="contained" color="warning">
-          Fechar
-        </Button>
+      <S.ModalContainer>
+        <S.TitleCancelButtonContainer>
+          <h2>Nova reclamação</h2>
+          <Button onClick={handleCloseModal} variant="contained" color="warning">
+            Cancelar
+          </Button>
+        </S.TitleCancelButtonContainer>
 
         <FormProvider {...occurrenceForm}>
           <S.Form onSubmit={handleSubmit(createOccurrence)}>
             <TextField label="Título" name="title" type="text" />
             <Textarea label="Descrição" name="description" type="text" />
-            <TextField label="Rua" name="street" type="text" />
-            <TextField label="Bairro" name="neighborhood" type="text" />
-            <TextField
-              label="CEP"
-              name="zipCode"
-              type="text"
-              onChange={(e) => handleZipCodeValue(e)}
-              maxLength={10}
-            />
-            <TextField label="Referência (opcional)" name="reference" type="text" />
+
+            <S.LocationFieldset>
+              <legend>Localização</legend>
+              <TextField label="Rua" name="street" type="text" />
+              <TextField label="Bairro" name="neighborhood" type="text" />
+              <TextField
+                label="CEP"
+                name="zipCode"
+                type="text"
+                onChange={(e) => handleZipCodeValue(e)}
+                maxLength={10}
+              />
+              <TextField label="Referência (opcional)" name="reference" type="text" />
+            </S.LocationFieldset>
+
             <FileField name="image" />
-            <Button type="submit" variant="contained" color="success">
+            <Button type="submit" variant="contained" color="success" sx={{ marginTop: '1rem' }}>
               Finalizar
             </Button>
           </S.Form>
         </FormProvider>
-      </S.ModalBox>
+      </S.ModalContainer>
     </Modal>
   );
 }
