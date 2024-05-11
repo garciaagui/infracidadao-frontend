@@ -10,4 +10,5 @@ export type TextareaProps = {
 
 export type TextFieldProps = {
   name: string;
+  maxLength?: number;
 } & StandardTextFieldProps;

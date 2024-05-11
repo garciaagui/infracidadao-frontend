@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { TextFieldProps } from '../utils/types';
 
 export default function TextField(props: TextFieldProps) {
-  const { name } = props;
+  const { name, maxLength } = props;
   const {
     register,
     formState: { errors },
@@ -16,6 +16,7 @@ export default function TextField(props: TextFieldProps) {
       variant="standard"
       error={errors[name] ? true : false}
       helperText={errors[name] && errorMessage}
+      inputProps={{ maxLength }}
       {...register(name)}
       {...props}
     />
