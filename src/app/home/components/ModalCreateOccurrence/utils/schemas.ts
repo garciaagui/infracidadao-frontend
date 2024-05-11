@@ -25,14 +25,10 @@ export const createOccurrenceSchema = z.object({
       message: 'Insira o bairro',
     })
     .toLowerCase(),
-  zipCode: z
-    .string()
-    .min(10, {
-      message: 'CEP precisa ter exatamente 8 dígitos',
-    })
-    .max(10, {
-      message: 'CEP precisa ter exatamente 8 dígitos',
-    }), // Embora o necessário seja 8 dígitos, consideramos 10 por conta do ponto e traço. Exemplo: 18.540-000.
+  zipCode: z.string().length(10, {
+    message: 'CEP precisa ter exatamente 8 dígitos',
+  }),
+  // Embora o necessário seja 8 dígitos, consideramos 10 por conta do ponto e traço. Exemplo: 18.540-000.
   street: z
     .string()
     .min(1, {
