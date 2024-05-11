@@ -28,8 +28,15 @@ export default function FileField({ name }: FileFieldProps) {
   const errorMessage = errors[name]?.message as string;
 
   return (
-    <>
-      <Button component="label" role={undefined} variant="contained" tabIndex={-1} color="primary">
+    <div>
+      <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+        color="primary"
+        sx={{ width: '100%' }}
+      >
         Adicione uma imagem
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
@@ -38,6 +45,6 @@ export default function FileField({ name }: FileFieldProps) {
           {errorMessage}
         </p>
       )}
-    </>
+    </div>
   );
 }
