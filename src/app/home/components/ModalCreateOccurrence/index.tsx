@@ -12,6 +12,7 @@ import { CreateOccurrenceType, CustomAxiosError, ModalCreateOccurrenceProps } fr
 export default function ModalCreateOccurrence({
   handleModal,
   handleNotification,
+  handleUpdateTableData,
   isOpen,
   userId,
 }: ModalCreateOccurrenceProps) {
@@ -32,6 +33,7 @@ export default function ModalCreateOccurrence({
 
     try {
       await requestOccurrenceCreation(formData);
+      handleUpdateTableData();
       handleNotification('Reclamação registrada!', 'success');
       handleCloseModal();
     } catch (err) {

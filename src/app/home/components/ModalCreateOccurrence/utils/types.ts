@@ -5,6 +5,7 @@ import { createOccurrenceSchema } from './schemas';
 export type ModalCreateOccurrenceProps = {
   handleModal: () => void;
   handleNotification: (message: string, result: string) => void;
+  handleUpdateTableData: () => void;
   isOpen: boolean;
   userId: string;
 };

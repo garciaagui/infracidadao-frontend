@@ -20,14 +20,19 @@ export default function Home() {
   const userId = session?.token.user.id as string;
   const role = session?.token.user.role as string;
 
+  const fetchApiData = async () => {
+    const data = await requestData('/occurrences');
+    const formattedData = formatTableData(data);
+    setApiData(formattedData);
+  };
+
   useEffect(() => {
-    const fetchApiData = async () => {
-      const data = await requestData('/occurrences');
-      const formattedData = formatTableData(data);
-      setApiData(formattedData);
-    };
     fetchApiData();
   }, []);
+
+  const closeNotification = () => {
+    setNotification((prevState) => ({ ...prevState, isOpen: false }));
+  };
 
   const handleModal = () => setOpenModal(!openModal);
 
@@ -35,8 +40,8 @@ export default function Home() {
     setNotification({ isOpen: true, message, result });
   };
 
-  const closeNotification = () => {
-    setNotification((prevState) => ({ ...prevState, isOpen: false }));
+  const handleUpdateTableData = () => {
+    fetchApiData();
   };
 
   return (
@@ -52,6 +57,7 @@ export default function Home() {
         isOpen={openModal}
         handleModal={handleModal}
         handleNotification={handleNotification}
+        handleUpdateTableData={handleUpdateTableData}
         userId={userId}
       />
       <Notification closeNotification={closeNotification} {...notification} />
