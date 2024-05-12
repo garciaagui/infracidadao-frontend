@@ -4,11 +4,11 @@ import { TextField } from '@/components/Form';
 import Notification from '@/components/Notification';
 import { requestUserCreation } from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Button from '@mui/material/Button';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import * as Styled from './styles';
 import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
 import { registerSchema } from './utils/schemas';
 import { CustomAxiosError, NotificationType, RegisterType } from './utils/types';
@@ -48,19 +48,19 @@ export default function Register() {
   };
 
   return (
-    <main>
+    <Styled.Main>
       <h1>Cadastro de usuários</h1>
       <FormProvider {...registerForm}>
-        <form onSubmit={handleSubmit(register)} noValidate>
+        <Styled.Form onSubmit={handleSubmit(register)} noValidate>
           <TextField label="Nome" name="name" type="text" />
           <TextField label="E-mail" name="email" type="email" />
           <TextField label="Senha" name="password" type="password" />
-          <Button type="submit" variant="contained" color="primary" size="large">
+          <Styled.Button type="submit" variant="contained" color="primary" size="large">
             Cadastrar
-          </Button>
-        </form>
+          </Styled.Button>
+        </Styled.Form>
       </FormProvider>
       <Notification closeNotification={closeNotification} {...notification} />
-    </main>
+    </Styled.Main>
   );
 }
