@@ -1,9 +1,9 @@
 import * as M from '@mui/material';
 import { useFormContext } from 'react-hook-form';
-import { TextFieldProps } from '../utils/types';
+import { TextareaProps } from '../utils/types';
 
-export default function TextField(props: TextFieldProps) {
-  const { name, maxLength } = props;
+export default function Textarea(props: TextareaProps) {
+  const { name } = props;
   const {
     register,
     formState: { errors },
@@ -16,7 +16,8 @@ export default function TextField(props: TextFieldProps) {
       variant="standard"
       error={errors[name] ? true : false}
       helperText={errors[name] && errorMessage}
-      inputProps={{ maxLength }}
+      multiline
+      rows={3}
       {...register(name)}
       {...props}
     />

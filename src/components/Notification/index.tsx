@@ -4,14 +4,14 @@ type NotificationProps = {
   closeNotification: () => void;
   isOpen: boolean;
   message: string;
-  result: string;
+  severity: 'success' | 'error' | 'warning';
 };
 
 export default function Notification({
   closeNotification,
   isOpen,
   message,
-  result,
+  severity,
 }: NotificationProps) {
   return (
     <Snackbar
@@ -21,7 +21,7 @@ export default function Notification({
       anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
     >
       <Alert
-        severity={result === 'success' ? 'success' : 'error'}
+        severity={severity}
         variant="filled"
         sx={{ width: '100%' }}
         onClose={closeNotification}
