@@ -1,13 +1,12 @@
 'use client';
 
 import Notification from '@/components/Notification';
-import Table from '@/components/Table';
 import { requestData } from '@/services/axios';
 import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
 import { NotificationType, SeverityType } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import ModalCreateOccurrence from './components/ModalCreateOccurrence';
+import { ModalCreateOccurrence, Table } from './components';
 import { Button, Main } from './styles';
 import { formatTableData } from './utils/functions';
 import { TableDataType } from './utils/types';
