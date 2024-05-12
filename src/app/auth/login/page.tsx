@@ -2,15 +2,16 @@
 
 import { TextField } from '@/components/Form';
 import Notification from '@/components/Notification';
+import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
+import { NotificationType } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn, SignInResponse } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
-import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
 import { loginSchema } from './utils/schemas';
-import { LoginType, NotificationType } from './utils/types';
+import { LoginType } from './utils/types';
 
 export default function Login() {
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
