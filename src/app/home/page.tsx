@@ -3,13 +3,14 @@
 import Notification from '@/components/Notification';
 import Table from '@/components/Table';
 import { requestData } from '@/services/axios';
+import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
+import { NotificationType, SeverityType } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import ModalCreateOccurrence from './components/ModalCreateOccurrence';
 import { Button, Main } from './styles';
-import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
 import { formatTableData } from './utils/functions';
-import { NotificationType, SeverityType, TableDataType } from './utils/types';
+import { TableDataType } from './utils/types';
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);

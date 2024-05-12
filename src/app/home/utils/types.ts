@@ -19,11 +19,3 @@ export type TableDataType = {
   status: string;
   createdAt: string;
 };
-
-export type SeverityType = 'success' | 'error' | 'warning';
-
-export type NotificationType = {
-  isOpen: boolean;
-  message: string;
-  severity: SeverityType;
-};
