@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { ModalCreateOccurrence, Table } from './components';
 import { Button, Main } from './styles';
-import { formatTableData } from './utils/functions';
+import { formatTableData, sortApiDataByCreationDate } from './utils/functions';
 import { TableDataType } from './utils/types';
 
 export default function Home() {
@@ -22,7 +22,8 @@ export default function Home() {
 
   const fetchApiData = async () => {
     const data = await requestData('/occurrences');
-    const formattedData = formatTableData(data);
+    const sortedData = sortApiDataByCreationDate(data);
+    const formattedData = formatTableData(sortedData);
     setApiData(formattedData);
   };
 
