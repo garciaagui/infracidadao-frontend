@@ -26,10 +26,6 @@ export default function Home() {
     setApiData(formattedData);
   };
 
-  useEffect(() => {
-    fetchApiData();
-  }, []);
-
   const closeNotification = () => {
     setNotification((prevState) => ({ ...prevState, isOpen: false }));
   };
@@ -43,6 +39,15 @@ export default function Home() {
   const handleUpdateTableData = () => {
     fetchApiData();
   };
+
+  useEffect(() => {
+    if (session) {
+      handleNotification('Usuário logado', 'success');
+    } else {
+      handleNotification('Faça o login para abrir reclamações', 'warning');
+    }
+    fetchApiData();
+  }, [session]);
 
   return (
     <Main>
