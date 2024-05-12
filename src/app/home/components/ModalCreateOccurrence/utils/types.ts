@@ -1,10 +1,11 @@
+import { SeverityType } from '@/app/home/utils/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { z } from 'zod';
 import { createOccurrenceSchema } from './schemas';
 
 export type ModalCreateOccurrenceProps = {
   handleModal: () => void;
-  handleNotification: (message: string, result: string) => void;
+  handleNotification: (message: string, severity: SeverityType) => void;
   handleUpdateTableData: () => void;
   isOpen: boolean;
   userId: string;

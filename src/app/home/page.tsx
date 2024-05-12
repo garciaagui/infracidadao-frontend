@@ -9,12 +9,12 @@ import ModalCreateOccurrence from './components/ModalCreateOccurrence';
 import { Button, Main } from './styles';
 import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
 import { formatTableData } from './utils/functions';
-import { TableDataType } from './utils/types';
+import { NotificationType, SeverityType, TableDataType } from './utils/types';
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
   const [openModal, setOpenModal] = useState(false);
-  const [notification, setNotification] = useState(NOTIFICATION_INITIAL_STATE);
+  const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
 
   const { data: session } = useSession();
   const userId = session?.token.user.id as string;
@@ -36,8 +36,8 @@ export default function Home() {
 
   const handleModal = () => setOpenModal(!openModal);
 
-  const handleNotification = (message: string, result: string) => {
-    setNotification({ isOpen: true, message, result });
+  const handleNotification = (message: string, severity: SeverityType) => {
+    setNotification({ isOpen: true, message, severity });
   };
 
   const handleUpdateTableData = () => {
