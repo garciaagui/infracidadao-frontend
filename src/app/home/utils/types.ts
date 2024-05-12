@@ -13,6 +13,7 @@ export type OccurrenceType = {
 };
 
 export type TableDataType = {
+  id: number;
   title: string;
   neighborhood: string;
   street: string;
