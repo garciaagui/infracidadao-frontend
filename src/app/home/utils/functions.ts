@@ -9,8 +9,17 @@ const formatDate = (dateString: string): string => {
   return `${day}/${month}/${year}`;
 };
 
+export const sortApiDataByCreationDate = (data: OccurrenceType[]) => {
+  return data.sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+
+    return (dateA - dateB) * -1; // Ordem: do mais novo para o mais velho
+  });
+};
+
 export const formatTableData = (data: OccurrenceType[]): TableDataType[] => {
-  return data.map(({ id,title, neighborhood, street, status, createdAt }) => ({
+  return data.map(({ id, title, neighborhood, street, status, createdAt }) => ({
     id,
     title,
     neighborhood,
