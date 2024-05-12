@@ -10,10 +10,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
 import { loginSchema } from './utils/schemas';
-import { LoginType } from './utils/types';
+import { LoginType, NotificationType } from './utils/types';
 
 export default function Login() {
-  const [notification, setNotification] = useState(NOTIFICATION_INITIAL_STATE);
+  const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
   const router = useRouter();
   const loginForm = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
@@ -34,10 +34,10 @@ export default function Login() {
     const { ok, error } = response;
 
     if (ok) {
-      setNotification({ isOpen: true, message: 'Login bem-sucedido!', result: 'success' });
+      setNotification({ isOpen: true, message: 'Login bem-sucedido!', severity: 'success' });
       router.push('/home');
     } else if (!ok && error) {
-      setNotification({ isOpen: true, message: error, result: 'error' });
+      setNotification({ isOpen: true, message: error, severity: 'error' });
     }
   };
 
