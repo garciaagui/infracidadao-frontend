@@ -48,11 +48,11 @@ export default function Home() {
       handleNotification('Faça o login para abrir reclamações', 'warning');
     }
     fetchApiData();
-  }, [session]);
+  }, [session?.token.user.id]);
 
   return (
     <Main>
-      <h1>Home page</h1>
+      <h1>Home</h1>
       {role === 'user' && (
         <Button variant="contained" size="large" color="secondary" onClick={handleModal}>
           + Abrir Reclamação
