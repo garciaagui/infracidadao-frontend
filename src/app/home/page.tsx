@@ -5,6 +5,7 @@ import { requestData } from '@/services/axios';
 import theme from '@/styles/theme';
 import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
 import { NotificationType, SeverityType } from '@/utils/types';
+import { Add } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -65,8 +66,9 @@ export default function Home() {
               color="secondary"
               onClick={handleModal}
               sx={{ fontWeight: 'bold' }}
+              startIcon={<Add />}
             >
-              + Abrir Reclamação
+              Abrir Reclamação
             </Button>
           )}
           <Table data={apiData} />
