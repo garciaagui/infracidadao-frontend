@@ -16,9 +16,11 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const MUI_ERROR_INPUT_CLASS =
-  'MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium mui-1d1r5q-MuiFormHelperText-root';
-const MUI_ERROR_INPUT_ID = ':r0:-helper-text';
+const ErrorMessage = styled('p')({
+  color: '#E63946',
+  fontSize: '0.75rem',
+  marginTop: '3px',
+});
 
 export default function FileField({ name }: FileFieldProps) {
   const {
@@ -42,11 +44,7 @@ export default function FileField({ name }: FileFieldProps) {
         Adicione uma imagem
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
-      {errors[name] && (
-        <p className={MUI_ERROR_INPUT_CLASS} id={MUI_ERROR_INPUT_ID}>
-          {errorMessage}
-        </p>
-      )}
+      {errors[name] && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
 }
