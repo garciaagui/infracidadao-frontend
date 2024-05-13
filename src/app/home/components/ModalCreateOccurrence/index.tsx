@@ -2,6 +2,7 @@ import { FileField, TextField, Textarea } from '@/components/Form';
 import { requestOccurrenceCreation } from '@/services/axios';
 import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CheckSharp } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -49,7 +50,12 @@ export default function ModalCreateOccurrence({
       <S.ModalContainer>
         <S.TitleCancelButtonContainer>
           <h2>Nova reclamação</h2>
-          <Button onClick={handleCloseModal} variant="contained" color="warning">
+          <Button
+            onClick={handleCloseModal}
+            variant="contained"
+            color="warning"
+            sx={{ color: 'white' }}
+          >
             Cancelar
           </Button>
         </S.TitleCancelButtonContainer>
@@ -74,7 +80,13 @@ export default function ModalCreateOccurrence({
             </S.LocationFieldset>
 
             <FileField name="image" />
-            <Button type="submit" variant="contained" color="success" sx={{ marginTop: '1rem' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              sx={{ marginTop: '1rem' }}
+              startIcon={<CheckSharp />}
+            >
               Finalizar
             </Button>
           </S.Form>
