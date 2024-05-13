@@ -1,9 +1,12 @@
 'use client';
 
-import Notification from '@/components/Notification';
+import { Header, Notification } from '@/components';
 import { requestData } from '@/services/axios';
+import theme from '@/styles/theme';
 import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
 import { NotificationType, SeverityType } from '@/utils/types';
+import { Add } from '@mui/icons-material';
+import { ThemeProvider } from '@mui/material/styles';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { ModalCreateOccurrence, Table } from './components';
@@ -51,22 +54,34 @@ export default function Home() {
   }, [session?.token.user.id]);
 
   return (
-    <Main>
-      <h1>Home</h1>
-      {role === 'user' && (
-        <Button variant="contained" size="large" color="secondary" onClick={handleModal}>
-          + Abrir Reclamação
-        </Button>
-      )}
-      <Table data={apiData} />
-      <ModalCreateOccurrence
-        isOpen={openModal}
-        handleModal={handleModal}
-        handleNotification={handleNotification}
-        handleUpdateTableData={handleUpdateTableData}
-        userId={userId}
-      />
-      <Notification closeNotification={closeNotification} {...notification} />
-    </Main>
+    <ThemeProvider theme={theme}>
+      <>
+        <Header />
+        <Main>
+          <h1>Início</h1>
+          {role === 'user' && (
+            <Button
+              variant="contained"
+              size="large"
+              color="secondary"
+              onClick={handleModal}
+              sx={{ fontWeight: 'bold' }}
+              startIcon={<Add />}
+            >
+              Abrir Reclamação
+            </Button>
+          )}
+          <Table data={apiData} />
+          <ModalCreateOccurrence
+            isOpen={openModal}
+            handleModal={handleModal}
+            handleNotification={handleNotification}
+            handleUpdateTableData={handleUpdateTableData}
+            userId={userId}
+          />
+          <Notification closeNotification={closeNotification} {...notification} />
+        </Main>
+      </>
+    </ThemeProvider>
   );
 }

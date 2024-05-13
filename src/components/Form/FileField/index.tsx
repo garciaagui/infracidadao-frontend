@@ -1,3 +1,4 @@
+import { UploadSharp } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useFormContext } from 'react-hook-form';
@@ -15,9 +16,11 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const MUI_ERROR_INPUT_CLASS =
-  'MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium mui-1d1r5q-MuiFormHelperText-root';
-const MUI_ERROR_INPUT_ID = ':r0:-helper-text';
+const ErrorMessage = styled('p')({
+  color: '#E63946',
+  fontSize: '0.75rem',
+  marginTop: '3px',
+});
 
 export default function FileField({ name }: FileFieldProps) {
   const {
@@ -32,19 +35,16 @@ export default function FileField({ name }: FileFieldProps) {
       <Button
         component="label"
         role={undefined}
-        variant="contained"
+        variant="outlined"
         tabIndex={-1}
         color="primary"
         sx={{ width: '100%' }}
+        startIcon={<UploadSharp />}
       >
         Adicione uma imagem
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
-      {errors[name] && (
-        <p className={MUI_ERROR_INPUT_CLASS} id={MUI_ERROR_INPUT_ID}>
-          {errorMessage}
-        </p>
-      )}
+      {errors[name] && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
 }
