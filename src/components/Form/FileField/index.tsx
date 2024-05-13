@@ -1,3 +1,4 @@
+import { UploadSharp } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useFormContext } from 'react-hook-form';
@@ -32,10 +33,11 @@ export default function FileField({ name }: FileFieldProps) {
       <Button
         component="label"
         role={undefined}
-        variant="contained"
+        variant="outlined"
         tabIndex={-1}
         color="primary"
         sx={{ width: '100%' }}
+        startIcon={<UploadSharp />}
       >
         Adicione uma imagem
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
