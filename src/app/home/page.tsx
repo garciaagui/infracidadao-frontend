@@ -1,15 +1,15 @@
 'use client';
 
 import Notification from '@/components/Notification';
-import Table from '@/components/Table';
 import { requestData } from '@/services/axios';
+import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
+import { NotificationType, SeverityType } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import ModalCreateOccurrence from './components/ModalCreateOccurrence';
+import { ModalCreateOccurrence, Table } from './components';
 import { Button, Main } from './styles';
-import { NOTIFICATION_INITIAL_STATE } from './utils/constants';
-import { formatTableData } from './utils/functions';
-import { NotificationType, SeverityType, TableDataType } from './utils/types';
+import { formatTableData, sortApiDataByCreationDate } from './utils/functions';
+import { TableDataType } from './utils/types';
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
@@ -22,7 +22,8 @@ export default function Home() {
 
   const fetchApiData = async () => {
     const data = await requestData('/occurrences');
-    const formattedData = formatTableData(data);
+    const sortedData = sortApiDataByCreationDate(data);
+    const formattedData = formatTableData(sortedData);
     setApiData(formattedData);
   };
 
@@ -47,11 +48,11 @@ export default function Home() {
       handleNotification('Faça o login para abrir reclamações', 'warning');
     }
     fetchApiData();
-  }, [session]);
+  }, [session?.token.user.id]);
 
   return (
     <Main>
-      <h1>Home page</h1>
+      <h1>Home</h1>
       {role === 'user' && (
         <Button variant="contained" size="large" color="secondary" onClick={handleModal}>
           + Abrir Reclamação

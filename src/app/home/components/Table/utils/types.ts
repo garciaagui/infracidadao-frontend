@@ -1,17 +1,10 @@
-export type TableDataType = {
-  title: string;
-  neighborhood: string;
-  street: string;
-  status: string;
-  createdAt: string;
-};
+import { TableDataType } from '@/app/home/utils/types';
 
 export type TableHeadProps = {
   headers: { key: string; label: string }[];
 };
 
 export type TableBodyProps = {
-  columns: (keyof TableDataType)[];
   data: TableDataType[];
 };
 

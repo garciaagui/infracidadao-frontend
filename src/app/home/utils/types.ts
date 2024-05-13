@@ -13,17 +13,10 @@ export type OccurrenceType = {
 };
 
 export type TableDataType = {
+  id: number;
   title: string;
   neighborhood: string;
   street: string;
   status: string;
   createdAt: string;
-};
-
-export type SeverityType = 'success' | 'error' | 'warning';
-
-export type NotificationType = {
-  isOpen: boolean;
-  message: string;
-  severity: SeverityType;
 };

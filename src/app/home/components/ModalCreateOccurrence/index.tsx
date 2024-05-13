@@ -1,5 +1,6 @@
 import { FileField, TextField, Textarea } from '@/components/Form';
 import { requestOccurrenceCreation } from '@/services/axios';
+import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -7,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { generateFormData, handleZipCodeValue } from './utils/functions';
 import { createOccurrenceSchema } from './utils/schemas';
-import { CreateOccurrenceType, CustomAxiosError, ModalCreateOccurrenceProps } from './utils/types';
+import { CreateOccurrenceType, ModalCreateOccurrenceProps } from './utils/types';
 
 export default function ModalCreateOccurrence({
   handleModal,
