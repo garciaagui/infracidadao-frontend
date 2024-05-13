@@ -9,7 +9,7 @@ import { signIn, SignInResponse } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as S from './styles';
+import * as Styled from './styles';
 import { loginSchema } from './utils/schemas';
 import { LoginType } from './utils/types';
 
@@ -43,18 +43,19 @@ export default function Login() {
   };
 
   return (
-    <S.Main>
+    <Styled.Main>
       <h1>Login</h1>
       <FormProvider {...loginForm}>
-        <S.Form onSubmit={handleSubmit(login)} noValidate>
+        <Styled.Form onSubmit={handleSubmit(login)} noValidate>
           <TextField label="E-mail" name="email" type="email" />
           <TextField label="Senha" name="password" type="password" />
-          <S.Button type="submit" variant="contained" color="primary" size="large">
+          <Styled.Button type="submit" variant="contained" color="primary" size="large">
             Entrar
-          </S.Button>
-        </S.Form>
+          </Styled.Button>
+        </Styled.Form>
       </FormProvider>
+      <Styled.Link href={'/register'}>Não tem conta? Cadastre-se</Styled.Link>
       <Notification closeNotification={closeNotification} {...notification} />
-    </S.Main>
+    </Styled.Main>
   );
 }

@@ -1,3 +1,4 @@
+import { RegisterType } from '@/app/register/utils/types';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -22,6 +23,12 @@ export const requestLogin = async (email: string, password: string) => {
 
 export const requestOccurrenceCreation = async (formData: FormData) => {
   const { data } = await instance.post('/occurrences', formData);
+
+  return data;
+};
+
+export const requestUserCreation = async (registerData: RegisterType) => {
+  const { data } = await instance.post('/users/register', registerData);
 
   return data;
 };
