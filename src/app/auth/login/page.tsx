@@ -2,9 +2,11 @@
 
 import { TextField } from '@/components/Form';
 import Notification from '@/components/Notification';
+import theme from '@/styles/theme';
 import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
 import { NotificationType } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ThemeProvider } from '@mui/material/styles';
 import { signIn, SignInResponse } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -43,19 +45,21 @@ export default function Login() {
   };
 
   return (
-    <Styled.Main>
-      <h1>Login</h1>
-      <FormProvider {...loginForm}>
-        <Styled.Form onSubmit={handleSubmit(login)} noValidate>
-          <TextField label="E-mail" name="email" type="email" />
-          <TextField label="Senha" name="password" type="password" />
-          <Styled.Button type="submit" variant="contained" color="primary" size="large">
-            Entrar
-          </Styled.Button>
-        </Styled.Form>
-      </FormProvider>
-      <Styled.Link href={'/register'}>Não tem conta? Cadastre-se</Styled.Link>
-      <Notification closeNotification={closeNotification} {...notification} />
-    </Styled.Main>
+    <ThemeProvider theme={theme}>
+      <Styled.Main>
+        <h1>Login</h1>
+        <FormProvider {...loginForm}>
+          <Styled.Form onSubmit={handleSubmit(login)} noValidate>
+            <TextField label="E-mail" name="email" type="email" />
+            <TextField label="Senha" name="password" type="password" />
+            <Styled.Button type="submit" variant="contained" color="primary" size="large">
+              Entrar
+            </Styled.Button>
+          </Styled.Form>
+        </FormProvider>
+        <Styled.Link href={'/register'}>Não tem conta? Cadastre-se</Styled.Link>
+        <Notification closeNotification={closeNotification} {...notification} />
+      </Styled.Main>
+    </ThemeProvider>
   );
 }
