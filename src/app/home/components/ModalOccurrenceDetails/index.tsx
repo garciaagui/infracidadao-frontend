@@ -9,7 +9,12 @@ export default function ModalOccurrenceDetails({
   return (
     <Modal open={isOpen}>
       <ModalContainer>
-        <Button onClick={handleModal} variant="contained" color="warning" sx={{ color: 'white' }}>
+        <Button
+          onClick={() => handleModal(0)}
+          variant="contained"
+          color="warning"
+          sx={{ color: 'white' }}
+        >
           Cancelar
         </Button>
       </ModalContainer>

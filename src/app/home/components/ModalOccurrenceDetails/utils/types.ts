@@ -1,4 +1,4 @@
 export type ModalOccurrenceDetailsProps = {
-  handleModal: () => void;
+  handleModal: (id: number) => void;
   isOpen: boolean;
 };
