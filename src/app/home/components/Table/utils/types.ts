@@ -6,8 +6,10 @@ export type TableHeadProps = {
 
 export type TableBodyProps = {
   data: TableDataType[];
+  handleModal: () => void;
 };
 
 export type TableProps = {
   data: TableDataType[];
+  handleModal: () => void;
 };
