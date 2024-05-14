@@ -9,7 +9,7 @@ import { Add } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { ModalCreateOccurrence, Table } from './components';
+import { ModalCreateOccurrence, ModalOccurrenceDetails, Table } from './components';
 import { Button, Main } from './styles';
 import { formatTableData, sortApiDataByCreationDate } from './utils/functions';
 import { TableDataType } from './utils/types';
@@ -17,6 +17,7 @@ import { TableDataType } from './utils/types';
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
   const [openCreationModal, setOpenCreationModal] = useState(false);
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
 
   const { data: session } = useSession();
@@ -35,6 +36,7 @@ export default function Home() {
   };
 
   const handleCreationModal = () => setOpenCreationModal(!openCreationModal);
+  const handleDetailsModal = () => setOpenDetailsModal(!openDetailsModal);
 
   const handleNotification = (message: string, severity: SeverityType) => {
     setNotification({ isOpen: true, message, severity });
@@ -71,16 +73,17 @@ export default function Home() {
               Abrir Reclamação
             </Button>
           )}
-          <Table data={apiData} />
-          <ModalCreateOccurrence
-            isOpen={openCreationModal}
-            handleModal={handleCreationModal}
-            handleNotification={handleNotification}
-            handleUpdateTableData={handleUpdateTableData}
-            userId={userId}
-          />
-          <Notification closeNotification={closeNotification} {...notification} />
+          <Table data={apiData} handleModal={handleDetailsModal} />
         </Main>
+        <ModalCreateOccurrence
+          isOpen={openCreationModal}
+          handleModal={handleCreationModal}
+          handleNotification={handleNotification}
+          handleUpdateTableData={handleUpdateTableData}
+          userId={userId}
+        />
+        <ModalOccurrenceDetails isOpen={openDetailsModal} handleModal={handleDetailsModal} />
+        <Notification closeNotification={closeNotification} {...notification} />
       </>
     </ThemeProvider>
   );
