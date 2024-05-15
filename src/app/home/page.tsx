@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { ModalCreateOccurrence, ModalOccurrenceDetails, Table } from './components';
 import { Button, Main } from './styles';
 import { formatTableData, sortApiDataByCreationDate } from './utils/functions';
-import { TableDataType } from './utils/types';
+import { OccurrenceType, TableDataType } from './utils/types';
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
@@ -25,7 +25,7 @@ export default function Home() {
   const role = session?.token.user.role as string;
 
   const fetchApiData = async () => {
-    const data = await requestData('/occurrences');
+    const data = await requestData<OccurrenceType[]>('/occurrences');
     const sortedData = sortApiDataByCreationDate(data);
     const formattedData = formatTableData(sortedData);
     setApiData(formattedData);
