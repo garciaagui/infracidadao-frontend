@@ -1,4 +1,4 @@
-import * as Icons from '@mui/icons-material';
+import { AutorenewSharp, DoneSharp, ErrorOutlineSharp } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { StatusType } from '../../utils/types';
 
@@ -9,11 +9,11 @@ type StatusChipProps = {
 
 const getIcon = (status: StatusType) => {
   if (status === 'Aberto') {
-    return <Icons.ErrorOutlineSharp fontSize="small" />;
+    return <ErrorOutlineSharp fontSize="small" />;
   } else if (status === 'Andamento') {
-    return <Icons.AutorenewSharp fontSize="small" />;
+    return <AutorenewSharp fontSize="small" />;
   } else {
-    return <Icons.DoneSharp fontSize="small" />;
+    return <DoneSharp fontSize="small" />;
   }
 };
 
