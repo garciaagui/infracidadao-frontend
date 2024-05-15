@@ -23,3 +23,12 @@ export type TableDataType = {
   status: StatusType;
   createdAt: string;
 };
+
+export type UserType = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+};

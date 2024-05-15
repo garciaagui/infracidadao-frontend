@@ -3,11 +3,11 @@ import { AccountCircleSharp, CalendarMonthSharp, CloseSharp, TagSharp } from '@m
 import { Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { OccurrenceType } from '../../utils/types';
+import { OccurrenceType, UserType } from '../../utils/types';
 import StatusChip from '../StatusChip';
 import { IconChip, ListItem } from './components';
 import { ModalContainer } from './styles';
-import { formatModalData } from './utils/functions';
+import { formatOccurrenceData } from './utils/functions';
 import { ModalOccurrenceDetailsProps } from './utils/types';
 
 export default function ModalOccurrenceDetails({
@@ -16,13 +16,16 @@ export default function ModalOccurrenceDetails({
   occurrenceId,
   isOpen,
 }: ModalOccurrenceDetailsProps) {
-  const [apiData, setApiData] = useState<OccurrenceType>();
+  const [occurrence, setOccurrence] = useState<OccurrenceType>();
+  const [user, setUser] = useState<UserType>();
 
   const fetchApiData = async (id: number) => {
     try {
-      const data = await requestData(`/occurrences/${id}`);
-      const formattedData = formatModalData(data);
-      setApiData(formattedData);
+      const occurrenceData = await requestData<OccurrenceType>(`/occurrences/${id}`);
+      const userData = await requestData<UserType>(`/users/${occurrenceData.userId}`);
+      const formattedOccurrenceData = formatOccurrenceData(occurrenceData);
+      setOccurrence(formattedOccurrenceData);
+      setUser(userData);
     } catch (error) {
       handleNotification('Erro ao encontrar informações, tente novamente', 'error');
     }
@@ -30,7 +33,7 @@ export default function ModalOccurrenceDetails({
 
   const handleCloseModal = () => {
     handleModal(0);
-    setApiData(undefined);
+    setOccurrence(undefined);
   };
 
   useEffect(() => {
@@ -42,19 +45,19 @@ export default function ModalOccurrenceDetails({
   return (
     <Modal open={isOpen} onClose={handleCloseModal}>
       <ModalContainer>
-        {apiData && (
+        {occurrence && user && (
           <>
             <Grid container justifyContent="space-between">
               <Stack direction="column" spacing={1}>
-                <h2>{apiData.title}</h2>
+                <h2>{occurrence.title}</h2>
                 <Stack direction="row" spacing={1}>
                   <IconChip
                     icon={<CalendarMonthSharp fontSize="small" />}
-                    label={apiData.createdAt}
+                    label={occurrence.createdAt}
                   />
-                  <StatusChip status={apiData.status} size="medium" />
-                  <IconChip icon={<TagSharp fontSize="small" />} label={apiData.id} />
-                  <IconChip icon={<AccountCircleSharp fontSize="small" />} label={'Usuário'} />
+                  <StatusChip status={occurrence.status} size="medium" />
+                  <IconChip icon={<TagSharp fontSize="small" />} label={occurrence.id} />
+                  <IconChip icon={<AccountCircleSharp fontSize="small" />} label={user.name} />
                 </Stack>
               </Stack>
 
@@ -63,20 +66,23 @@ export default function ModalOccurrenceDetails({
               </IconButton>
             </Grid>
 
-            <Image src={apiData.image} alt="image" width={700} height={500} />
+            <Image src={occurrence.image} alt="image" width={700} height={500} />
 
             <Stack spacing={1}>
               <h3>Descrição</h3>
-              <Typography>{apiData.description}</Typography>
+              <Typography>{occurrence.description}</Typography>
             </Stack>
 
             <Stack>
               <h3>Localização</h3>
               <List dense={true} sx={{ padding: 0 }}>
-                <ListItem primary="Bairro" secondary={apiData.neighborhood} />
-                <ListItem primary="Logradouro" secondary={apiData.street} />
-                <ListItem primary="CEP" secondary={apiData.zipCode} />
-                <ListItem primary="Referência" secondary={apiData.reference || 'Sem referência'} />
+                <ListItem primary="Bairro" secondary={occurrence.neighborhood} />
+                <ListItem primary="Logradouro" secondary={occurrence.street} />
+                <ListItem primary="CEP" secondary={occurrence.zipCode} />
+                <ListItem
+                  primary="Referência"
+                  secondary={occurrence.reference || 'Sem referência'}
+                />
               </List>
             </Stack>
           </>
