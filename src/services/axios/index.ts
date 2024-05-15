@@ -1,5 +1,5 @@
 import { RegisterType } from '@/app/register/utils/types';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
@@ -8,10 +8,9 @@ const instance = axios.create({
   },
 });
 
-export const requestData = async (endpoint: string) => {
-  const { data } = await instance.get(endpoint);
-
-  return data;
+export const requestData = async <T>(endpoint: string): Promise<T> => {
+  const response: AxiosResponse<T> = await instance.get(endpoint);
+  return response.data;
 };
 
 export const requestLogin = async (email: string, password: string) => {

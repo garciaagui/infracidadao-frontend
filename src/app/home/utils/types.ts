@@ -1,11 +1,14 @@
+export type StatusType = 'Aberto' | 'Andamento' | 'Finalizado';
+
 export type OccurrenceType = {
   id: number;
   title: string;
   description: string;
   neighborhood: string;
   street: string;
+  zipCode: string;
   reference?: string;
-  status: string;
+  status: StatusType;
   image: string;
   userId: number;
   createdAt: string;
@@ -17,6 +20,15 @@ export type TableDataType = {
   title: string;
   neighborhood: string;
   street: string;
-  status: string;
+  status: StatusType;
   createdAt: string;
+};
+
+export type UserType = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
 };

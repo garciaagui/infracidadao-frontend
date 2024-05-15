@@ -1,10 +1,9 @@
-import { FileField, TextField, Textarea } from '@/components/Form';
+import { FileField, TextField, Textarea } from '@/components';
 import { requestOccurrenceCreation } from '@/services/axios';
 import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckSharp } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import Modal from '@mui/material/Modal';
+import { Button, Modal } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { generateFormData, handleZipCodeValue } from './utils/functions';

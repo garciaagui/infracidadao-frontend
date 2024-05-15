@@ -9,14 +9,15 @@ import { Add } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { ModalCreateOccurrence, Table } from './components';
+import { ModalCreateOccurrence, ModalOccurrenceDetails, Table } from './components';
 import { Button, Main } from './styles';
 import { formatTableData, sortApiDataByCreationDate } from './utils/functions';
-import { TableDataType } from './utils/types';
+import { OccurrenceType, TableDataType } from './utils/types';
 
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
-  const [openModal, setOpenModal] = useState(false);
+  const [openCreationModal, setOpenCreationModal] = useState(false);
+  const [occurrenceId, setOccurrenceId] = useState(0);
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
 
   const { data: session } = useSession();
@@ -24,7 +25,7 @@ export default function Home() {
   const role = session?.token.user.role as string;
 
   const fetchApiData = async () => {
-    const data = await requestData('/occurrences');
+    const data = await requestData<OccurrenceType[]>('/occurrences');
     const sortedData = sortApiDataByCreationDate(data);
     const formattedData = formatTableData(sortedData);
     setApiData(formattedData);
@@ -34,7 +35,8 @@ export default function Home() {
     setNotification((prevState) => ({ ...prevState, isOpen: false }));
   };
 
-  const handleModal = () => setOpenModal(!openModal);
+  const handleCreationModal = () => setOpenCreationModal(!openCreationModal);
+  const handleDetailsModal = (id: number) => setOccurrenceId(id);
 
   const handleNotification = (message: string, severity: SeverityType) => {
     setNotification({ isOpen: true, message, severity });
@@ -64,23 +66,29 @@ export default function Home() {
               variant="contained"
               size="large"
               color="secondary"
-              onClick={handleModal}
+              onClick={handleCreationModal}
               sx={{ fontWeight: 'bold' }}
               startIcon={<Add />}
             >
               Abrir Reclamação
             </Button>
           )}
-          <Table data={apiData} />
-          <ModalCreateOccurrence
-            isOpen={openModal}
-            handleModal={handleModal}
-            handleNotification={handleNotification}
-            handleUpdateTableData={handleUpdateTableData}
-            userId={userId}
-          />
-          <Notification closeNotification={closeNotification} {...notification} />
+          <Table data={apiData} handleModal={handleDetailsModal} />
         </Main>
+        <ModalCreateOccurrence
+          isOpen={openCreationModal}
+          handleModal={handleCreationModal}
+          handleNotification={handleNotification}
+          handleUpdateTableData={handleUpdateTableData}
+          userId={userId}
+        />
+        <ModalOccurrenceDetails
+          occurrenceId={occurrenceId}
+          handleModal={handleDetailsModal}
+          handleNotification={handleNotification}
+          isOpen={occurrenceId > 0 ? true : false}
+        />
+        <Notification closeNotification={closeNotification} {...notification} />
       </>
     </ThemeProvider>
   );
