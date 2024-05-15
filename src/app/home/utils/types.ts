@@ -4,6 +4,7 @@ export type OccurrenceType = {
   description: string;
   neighborhood: string;
   street: string;
+  zipCode: string;
   reference?: string;
   status: string;
   image: string;
