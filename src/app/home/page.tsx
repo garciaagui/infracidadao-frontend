@@ -83,9 +83,10 @@ export default function Home() {
           userId={userId}
         />
         <ModalOccurrenceDetails
-          isOpen={openDetailsModal > 0 ? true : false}
           occurrenceId={openDetailsModal}
           handleModal={handleDetailsModal}
+          handleNotification={handleNotification}
+          isOpen={openDetailsModal > 0 ? true : false}
         />
         <Notification closeNotification={closeNotification} {...notification} />
       </>
