@@ -17,7 +17,7 @@ import { OccurrenceType, TableDataType } from './utils/types';
 export default function Home() {
   const [apiData, setApiData] = useState<TableDataType[]>([]);
   const [openCreationModal, setOpenCreationModal] = useState(false);
-  const [openDetailsModal, setOpenDetailsModal] = useState(0);
+  const [occurrenceId, setOccurrenceId] = useState(0);
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
 
   const { data: session } = useSession();
@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   const handleCreationModal = () => setOpenCreationModal(!openCreationModal);
-  const handleDetailsModal = (id: number) => setOpenDetailsModal(id);
+  const handleDetailsModal = (id: number) => setOccurrenceId(id);
 
   const handleNotification = (message: string, severity: SeverityType) => {
     setNotification({ isOpen: true, message, severity });
@@ -83,10 +83,10 @@ export default function Home() {
           userId={userId}
         />
         <ModalOccurrenceDetails
-          occurrenceId={openDetailsModal}
+          occurrenceId={occurrenceId}
           handleModal={handleDetailsModal}
           handleNotification={handleNotification}
-          isOpen={openDetailsModal > 0 ? true : false}
+          isOpen={occurrenceId > 0 ? true : false}
         />
         <Notification closeNotification={closeNotification} {...notification} />
       </>
