@@ -21,7 +21,7 @@ export default function Home() {
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
 
   const { data: session } = useSession();
-  const userId = session?.token.user.id as string;
+  const userId = session?.token.user.id as number;
   const role = session?.token.user.role as string;
 
   const fetchApiData = async () => {
