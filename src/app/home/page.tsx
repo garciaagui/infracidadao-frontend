@@ -87,6 +87,7 @@ export default function Home() {
           handleModal={handleDetailsModal}
           handleNotification={handleNotification}
           isOpen={occurrenceId > 0 ? true : false}
+          loggedUserRole={role}
         />
         <Notification closeNotification={closeNotification} {...notification} />
       </>

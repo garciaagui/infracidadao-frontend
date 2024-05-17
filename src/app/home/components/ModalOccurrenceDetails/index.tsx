@@ -1,11 +1,11 @@
 import { requestData } from '@/services/axios';
 import { AccountCircleSharp, CalendarMonthSharp, CloseSharp, TagSharp } from '@mui/icons-material';
-import { Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
+import { Button, Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { OccurrenceType, UserType } from '../../utils/types';
 import StatusChip from '../StatusChip';
-import { IconChip, ListItem } from './components';
+import { IconChip, ListItem, ModalOccurrenceReply } from './components';
 import { ModalContainer } from './styles';
 import { formatOccurrenceData } from './utils/functions';
 import { ModalOccurrenceDetailsProps } from './utils/types';
@@ -15,9 +15,11 @@ export default function ModalOccurrenceDetails({
   handleNotification,
   occurrenceId,
   isOpen,
+  loggedUserRole,
 }: ModalOccurrenceDetailsProps) {
   const [occurrence, setOccurrence] = useState<OccurrenceType>();
   const [user, setUser] = useState<UserType>();
+  const [openReplyModal, setOpenReplyModal] = useState(0);
 
   const fetchApiData = async (id: number) => {
     try {
@@ -35,6 +37,8 @@ export default function ModalOccurrenceDetails({
     handleModal(0);
     setOccurrence(undefined);
   };
+
+  const handleReplyModal = (id: number) => setOpenReplyModal(id);
 
   useEffect(() => {
     if (occurrenceId && occurrenceId > 0) {
@@ -85,6 +89,23 @@ export default function ModalOccurrenceDetails({
                 />
               </List>
             </Stack>
+
+            {loggedUserRole === 'employee' && occurrence.status !== 'Finalizado' && (
+              <>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => handleReplyModal(occurrenceId)}
+                >
+                  Atualizar Status
+                </Button>
+                <ModalOccurrenceReply
+                  isOpen={openReplyModal > 0 ? true : false}
+                  handleModal={handleReplyModal}
+                  currentStatus={occurrence.status}
+                />
+              </>
+            )}
           </>
         )}
       </ModalContainer>
