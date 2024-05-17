@@ -3,7 +3,7 @@ import { AccountCircleSharp, CalendarMonthSharp, CloseSharp, TagSharp } from '@m
 import { Button, Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { OccurrenceType, UserType } from '../../utils/types';
+import { OccurrenceType } from '../../utils/types';
 import StatusChip from '../StatusChip';
 import { IconChip, ListItem, ModalOccurrenceReply } from './components';
 import { ModalContainer } from './styles';
@@ -19,16 +19,13 @@ export default function ModalOccurrenceDetails({
   loggedUser,
 }: ModalOccurrenceDetailsProps) {
   const [occurrence, setOccurrence] = useState<OccurrenceType>();
-  const [user, setUser] = useState<UserType>();
   const [openReplyModal, setOpenReplyModal] = useState(0);
 
   const fetchApiData = async (id: number) => {
     try {
       const occurrenceData = await requestData<OccurrenceType>(`/occurrences/${id}`);
-      const userData = await requestData<UserType>(`/users/${occurrenceData.userId}`);
       const formattedOccurrenceData = formatOccurrenceData(occurrenceData);
       setOccurrence(formattedOccurrenceData);
-      setUser(userData);
     } catch (error) {
       handleNotification('Erro ao encontrar informações, tente novamente', 'error');
     }
@@ -55,7 +52,7 @@ export default function ModalOccurrenceDetails({
   return (
     <Modal open={isOpen} onClose={handleCloseModal}>
       <ModalContainer>
-        {occurrence && user && (
+        {occurrence && (
           <>
             <Grid container justifyContent="space-between">
               <Stack direction="column" spacing={1}>
@@ -67,7 +64,10 @@ export default function ModalOccurrenceDetails({
                   />
                   <StatusChip status={occurrence.status} size="medium" />
                   <IconChip icon={<TagSharp fontSize="small" />} label={occurrence.id} />
-                  <IconChip icon={<AccountCircleSharp fontSize="small" />} label={user.name} />
+                  <IconChip
+                    icon={<AccountCircleSharp fontSize="small" />}
+                    label={occurrence.user.name}
+                  />
                 </Stack>
               </Stack>
 
