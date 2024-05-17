@@ -32,3 +32,14 @@ export type UserType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type LoggedUserType =
+  | {
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+      createdAt: string;
+      updatedAt: string;
+    }
+  | undefined;
