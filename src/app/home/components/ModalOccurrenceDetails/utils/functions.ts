@@ -12,13 +12,13 @@ export const formatOccurrenceData = (data: OccurrenceType): OccurrenceType => {
 export const generateReplyFormData = (
   replyData: CreateReplyType,
   occurrenceId: number,
-  userId: string,
+  userId: number,
 ): FormData => {
   const formData = new FormData();
 
   formData.set('description', replyData.description);
   formData.set('occurrenceId', String(occurrenceId));
-  formData.set('userId', userId);
+  formData.set('userId', String(userId));
 
   console.log(replyData.imageUrl);
   console.log(replyData.imageUrl[0]);
