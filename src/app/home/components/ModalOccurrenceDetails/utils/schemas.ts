@@ -12,7 +12,6 @@ export const createReplySchema = z.object({
     .toLowerCase(),
   imageUrl: z
     .any()
-    .refine((files) => !files || !!files.item(0), 'Selecione uma imagem') // Permite null ou undefined
     .transform((files) => {
       return files?.item(0);
     })

@@ -20,10 +20,7 @@ export const generateReplyFormData = (
   formData.set('occurrenceId', String(occurrenceId));
   formData.set('userId', String(userId));
 
-  console.log(replyData.imageUrl);
-  console.log(replyData.imageUrl[0]);
-
-  if (replyData.imageUrl) {
+  if (replyData.imageUrl[0]) {
     formData.set('imageUrl', replyData.imageUrl[0]);
   }
 
