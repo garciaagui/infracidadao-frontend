@@ -1,4 +1,4 @@
-import { LoggedUserType, OccurrenceType } from '@/app/home/utils/types';
+import { OccurrenceType, UserType } from '@/app/home/utils/types';
 import { SeverityType } from '@/utils/types';
 import { z } from 'zod';
 import { createReplySchema } from './schemas';
@@ -8,7 +8,7 @@ export type ModalOccurrenceDetailsProps = {
   handleNotification: (message: string, severity: SeverityType) => void;
   handleUpdateTableData: () => void;
   isOpen: boolean;
-  loggedUser: LoggedUserType;
+  loggedUser: UserType | undefined;
   occurrenceId: number;
 };
 
@@ -17,7 +17,7 @@ export type ModalOccurrenceReplyProps = {
   handleNotification: (message: string, severity: SeverityType) => void;
   handleUpdateModalData: () => void;
   isOpen: boolean;
-  loggedUserId: string;
+  loggedUserId: number;
   occurrenceData: OccurrenceType;
 };
 
