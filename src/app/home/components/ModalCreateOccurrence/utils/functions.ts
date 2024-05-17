@@ -2,7 +2,7 @@ import { CreateOccurrenceType } from './types';
 
 export const generateFormData = (
   occurrenceData: CreateOccurrenceType,
-  userId: string,
+  userId: number,
 ): FormData => {
   const formData = new FormData();
 
@@ -12,7 +12,7 @@ export const generateFormData = (
   formData.set('neighborhood', occurrenceData.neighborhood);
   formData.set('zipCode', occurrenceData.zipCode);
   formData.set('image', occurrenceData.image[0]);
-  formData.set('userId', userId);
+  formData.set('userId', String(userId));
 
   if (occurrenceData.reference) {
     formData.set('reference', occurrenceData.reference);
