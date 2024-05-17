@@ -1,17 +1,23 @@
 import { FileField, Textarea } from '@/components';
+import { requestOccurrenceStatusUpdate, requestReplyCreation } from '@/services/axios';
+import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowForwardIosSharp, CheckSharp } from '@mui/icons-material';
 import { Button, Modal, Stack } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import StatusChip from '../../../StatusChip';
+import { generateReplyFormData } from '../../utils/functions';
 import { createReplySchema } from '../../utils/schemas';
 import { CreateReplyType, ModalOccurrenceReplyProps } from '../../utils/types';
 import { Form, ModalContainer } from './styles';
 
 export default function ModalOccurrenceReply({
-  currentStatus,
   handleModal,
+  handleNotification,
+  handleUpdateModalData,
   isOpen,
+  loggedUserId,
+  occurrenceData,
 }: ModalOccurrenceReplyProps) {
   const replyForm = useForm<CreateReplyType>({
     resolver: zodResolver(createReplySchema),
@@ -24,9 +30,23 @@ export default function ModalOccurrenceReply({
     reset();
   };
 
-  const createReply = () => {
-    const data = watch();
-    console.log(data);
+  const createReply = async () => {
+    const reply = watch();
+    const { id, status } = occurrenceData;
+    const formData = generateReplyFormData(reply, id, loggedUserId);
+    const newStatus = status === 'Aberto' ? 'Andamento' : 'Finalizado';
+
+    try {
+      await requestReplyCreation(formData);
+      await requestOccurrenceStatusUpdate(id, newStatus);
+      handleUpdateModalData();
+      handleNotification('Status atualizado!', 'success');
+      handleCloseModal();
+    } catch (err) {
+      const { response } = err as CustomAxiosError;
+      const message = response?.data.message;
+      handleNotification(message, 'error');
+    }
   };
 
   return (
@@ -45,10 +65,10 @@ export default function ModalOccurrenceReply({
         </Stack>
 
         <Stack direction="row" spacing={1} alignItems={'center'}>
-          <StatusChip status={currentStatus} size="medium" />
+          <StatusChip status={occurrenceData.status} size="medium" />
           <ArrowForwardIosSharp fontSize="small" />
           <StatusChip
-            status={currentStatus === 'Aberto' ? 'Andamento' : 'Finalizado'}
+            status={occurrenceData.status === 'Aberto' ? 'Andamento' : 'Finalizado'}
             size="medium"
           />
         </Stack>
@@ -61,7 +81,7 @@ export default function ModalOccurrenceReply({
               placeholder="Descreva como está o processo para a solução do problema"
               type="text"
             />
-            <FileField name="image" />
+            <FileField name="imageUrl" />
             <Button
               color="success"
               startIcon={<CheckSharp />}

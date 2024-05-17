@@ -86,8 +86,9 @@ export default function Home() {
           occurrenceId={occurrenceId}
           handleModal={handleDetailsModal}
           handleNotification={handleNotification}
+          handleUpdateTableData={handleUpdateTableData}
           isOpen={occurrenceId > 0 ? true : false}
-          loggedUserRole={role}
+          loggedUser={session?.token.user}
         />
         <Notification closeNotification={closeNotification} {...notification} />
       </>

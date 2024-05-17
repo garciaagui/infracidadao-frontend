@@ -13,9 +13,10 @@ import { ModalOccurrenceDetailsProps } from './utils/types';
 export default function ModalOccurrenceDetails({
   handleModal,
   handleNotification,
+  handleUpdateTableData,
   occurrenceId,
   isOpen,
-  loggedUserRole,
+  loggedUser,
 }: ModalOccurrenceDetailsProps) {
   const [occurrence, setOccurrence] = useState<OccurrenceType>();
   const [user, setUser] = useState<UserType>();
@@ -39,6 +40,11 @@ export default function ModalOccurrenceDetails({
   };
 
   const handleReplyModal = (id: number) => setOpenReplyModal(id);
+
+  const handleUpdateModalData = () => {
+    fetchApiData(occurrenceId);
+    handleUpdateTableData();
+  };
 
   useEffect(() => {
     if (occurrenceId && occurrenceId > 0) {
@@ -90,7 +96,7 @@ export default function ModalOccurrenceDetails({
               </List>
             </Stack>
 
-            {loggedUserRole === 'employee' && occurrence.status !== 'Finalizado' && (
+            {loggedUser?.role === 'employee' && occurrence.status !== 'Finalizado' && (
               <>
                 <Button
                   variant="contained"
@@ -101,8 +107,11 @@ export default function ModalOccurrenceDetails({
                 </Button>
                 <ModalOccurrenceReply
                   isOpen={openReplyModal > 0 ? true : false}
+                  loggedUserId={loggedUser?.id}
                   handleModal={handleReplyModal}
-                  currentStatus={occurrence.status}
+                  handleNotification={handleNotification}
+                  handleUpdateModalData={handleUpdateModalData}
+                  occurrenceData={occurrence}
                 />
               </>
             )}
