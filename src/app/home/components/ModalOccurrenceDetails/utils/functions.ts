@@ -1,11 +1,21 @@
 import { formatDate } from '@/app/home/utils/functions';
-import { OccurrenceType } from '@/app/home/utils/types';
+import { OccurrenceReplyType, OccurrenceType } from '@/app/home/utils/types';
 import { CreateReplyType } from './types';
+
+const formatRepliesDates = (data: OccurrenceReplyType[]) => {
+  return data.map((item) => {
+    return {
+      ...item,
+      createdAt: formatDate(item.createdAt),
+    };
+  });
+};
 
 export const formatOccurrenceData = (data: OccurrenceType): OccurrenceType => {
   return {
     ...data,
     createdAt: formatDate(data.createdAt),
+    occurrenceReplies: formatRepliesDates(data.occurrenceReplies),
   };
 };
 
@@ -20,8 +30,8 @@ export const generateReplyFormData = (
   formData.set('occurrenceId', String(occurrenceId));
   formData.set('userId', String(userId));
 
-  if (replyData.imageUrl[0]) {
-    formData.set('imageUrl', replyData.imageUrl[0]);
+  if (data.imageUrl[0]) {
+    formData.set('imageUrl', data.imageUrl[0]);
   }
 
   return formData;
