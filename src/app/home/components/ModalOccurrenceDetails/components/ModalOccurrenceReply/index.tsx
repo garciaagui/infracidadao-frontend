@@ -1,14 +1,15 @@
+import { StatusType } from '@/app/home/utils/types';
 import { FileField, Textarea } from '@/components';
 import { requestOccurrenceStatusUpdate, requestReplyCreation } from '@/services/axios';
 import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowForwardIosSharp, CheckSharp } from '@mui/icons-material';
+import * as I from '@mui/icons-material';
 import { Button, Modal, Stack } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import StatusChip from '../../../StatusChip';
 import { generateReplyFormData } from '../../utils/functions';
 import { createReplySchema } from '../../utils/schemas';
-import { CreateReplyType, ModalOccurrenceReplyProps } from '../../utils/types';
+import { CreateReplyFormType, ModalOccurrenceReplyProps } from '../../utils/types';
 import { Form, ModalContainer } from './styles';
 
 export default function ModalOccurrenceReply({
@@ -19,7 +20,7 @@ export default function ModalOccurrenceReply({
   loggedUserId,
   occurrenceData,
 }: ModalOccurrenceReplyProps) {
-  const replyForm = useForm<CreateReplyType>({
+  const replyForm = useForm<CreateReplyFormType>({
     resolver: zodResolver(createReplySchema),
   });
 
@@ -31,10 +32,18 @@ export default function ModalOccurrenceReply({
   };
 
   const createReply = async () => {
-    const reply = watch();
+    const replyData = watch();
     const { id, status } = occurrenceData;
-    const formData = generateReplyFormData(reply, id, loggedUserId);
-    const newStatus = status === 'Aberto' ? 'Andamento' : 'Finalizado';
+    const newStatus: Exclude<StatusType, 'Aberto'> =
+      status === 'Aberto' ? 'Andamento' : 'Finalizado';
+
+    const creationData = {
+      ...replyData,
+      userId: loggedUserId,
+      occurrenceId: id,
+      occurrenceStatus: newStatus,
+    };
+    const formData = generateReplyFormData(creationData);
 
     try {
       await requestReplyCreation(formData);
@@ -66,7 +75,7 @@ export default function ModalOccurrenceReply({
 
         <Stack direction="row" spacing={1} alignItems={'center'}>
           <StatusChip status={occurrenceData.status} size="medium" />
-          <ArrowForwardIosSharp fontSize="small" />
+          <I.ArrowForwardIosSharp fontSize="small" />
           <StatusChip
             status={occurrenceData.status === 'Aberto' ? 'Andamento' : 'Finalizado'}
             size="medium"
@@ -84,7 +93,7 @@ export default function ModalOccurrenceReply({
             <FileField name="imageUrl" />
             <Button
               color="success"
-              startIcon={<CheckSharp />}
+              startIcon={<I.CheckSharp />}
               sx={{ marginTop: '1rem' }}
               type="submit"
               variant="contained"
