@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { OccurrenceType } from '../../utils/types';
 import StatusChip from '../StatusChip';
-import { IconChip, ListItem, ModalOccurrenceReply } from './components';
+import { IconChip, ListItem, ModalOccurrenceReply, Reply } from './components';
 import { ModalContainer } from './styles';
 import { formatOccurrenceData } from './utils/functions';
 import { ModalOccurrenceDetailsProps } from './utils/types';
@@ -114,6 +114,15 @@ export default function ModalOccurrenceDetails({
                   occurrenceData={occurrence}
                 />
               </>
+            )}
+
+            {occurrence.occurrenceReplies.length > 0 && (
+              <Stack spacing={1.5}>
+                <h3>Atualizações</h3>
+                {occurrence.occurrenceReplies.map((reply) => {
+                  return <Reply key={reply.id} data={reply} />;
+                })}
+              </Stack>
             )}
           </>
         )}
