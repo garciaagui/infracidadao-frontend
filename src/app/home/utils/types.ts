@@ -1,15 +1,5 @@
 export type StatusType = 'Aberto' | 'Andamento' | 'Finalizado';
 
-export type OccurrenceReplyType = {
-  id: number;
-  description: string;
-  imageUrl: string;
-  userId: number;
-  occurrenceId: number;
-  createdAt: string;
-  updatedAt: string;
-};
-
 export type UserType = {
   id: number;
   name: string;
@@ -17,6 +7,18 @@ export type UserType = {
   role: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type OccurrenceReplyType = {
+  id: number;
+  description: string;
+  imageUrl: string;
+  userId: number;
+  occurrenceId: number;
+  occurrenceStatus: Exclude<StatusType, 'Aberto'>;
+  createdAt: string;
+  updatedAt: string;
+  user: UserType;
 };
 
 export type OccurrenceType = {
