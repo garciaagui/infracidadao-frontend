@@ -10,6 +10,7 @@ import StatusChip from '../../../StatusChip';
 import { generateReplyFormData } from '../../utils/functions';
 import { createReplySchema } from '../../utils/schemas';
 import { CreateReplyFormType, ModalOccurrenceReplyProps } from '../../utils/types';
+import IconChip from '../IconChip';
 import { Form, ModalContainer } from './styles';
 
 export default function ModalOccurrenceReply({
@@ -74,7 +75,12 @@ export default function ModalOccurrenceReply({
         </Stack>
 
         <Stack direction="row" spacing={1} alignItems={'center'}>
-          <StatusChip status={occurrenceData.status} size="medium" />
+          <IconChip
+            label={occurrenceData.status}
+            icon={
+              occurrenceData.status === 'Aberto' ? <I.ErrorOutlineSharp /> : <I.AutorenewSharp />
+            }
+          />
           <I.ArrowForwardIosSharp fontSize="small" />
           <StatusChip
             status={occurrenceData.status === 'Aberto' ? 'Andamento' : 'Finalizado'}
