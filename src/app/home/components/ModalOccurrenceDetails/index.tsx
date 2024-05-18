@@ -1,11 +1,11 @@
 import { requestData } from '@/services/axios';
 import { AccountCircleSharp, CalendarMonthSharp, CloseSharp, TagSharp } from '@mui/icons-material';
-import { Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
+import { Button, Grid, IconButton, List, Modal, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { OccurrenceType, UserType } from '../../utils/types';
+import { OccurrenceType } from '../../utils/types';
 import StatusChip from '../StatusChip';
-import { IconChip, ListItem } from './components';
+import { IconChip, ListItem, ModalOccurrenceReply, Reply } from './components';
 import { ModalContainer } from './styles';
 import { formatOccurrenceData } from './utils/functions';
 import { ModalOccurrenceDetailsProps } from './utils/types';
@@ -13,19 +13,19 @@ import { ModalOccurrenceDetailsProps } from './utils/types';
 export default function ModalOccurrenceDetails({
   handleModal,
   handleNotification,
+  handleUpdateTableData,
   occurrenceId,
   isOpen,
+  loggedUser,
 }: ModalOccurrenceDetailsProps) {
   const [occurrence, setOccurrence] = useState<OccurrenceType>();
-  const [user, setUser] = useState<UserType>();
+  const [openReplyModal, setOpenReplyModal] = useState(0);
 
   const fetchApiData = async (id: number) => {
     try {
       const occurrenceData = await requestData<OccurrenceType>(`/occurrences/${id}`);
-      const userData = await requestData<UserType>(`/users/${occurrenceData.userId}`);
       const formattedOccurrenceData = formatOccurrenceData(occurrenceData);
       setOccurrence(formattedOccurrenceData);
-      setUser(userData);
     } catch (error) {
       handleNotification('Erro ao encontrar informações, tente novamente', 'error');
     }
@@ -34,6 +34,13 @@ export default function ModalOccurrenceDetails({
   const handleCloseModal = () => {
     handleModal(0);
     setOccurrence(undefined);
+  };
+
+  const handleReplyModal = (id: number) => setOpenReplyModal(id);
+
+  const handleUpdateModalData = () => {
+    fetchApiData(occurrenceId);
+    handleUpdateTableData();
   };
 
   useEffect(() => {
@@ -45,7 +52,7 @@ export default function ModalOccurrenceDetails({
   return (
     <Modal open={isOpen} onClose={handleCloseModal}>
       <ModalContainer>
-        {occurrence && user && (
+        {occurrence && (
           <>
             <Grid container justifyContent="space-between">
               <Stack direction="column" spacing={1}>
@@ -57,7 +64,10 @@ export default function ModalOccurrenceDetails({
                   />
                   <StatusChip status={occurrence.status} size="medium" />
                   <IconChip icon={<TagSharp fontSize="small" />} label={occurrence.id} />
-                  <IconChip icon={<AccountCircleSharp fontSize="small" />} label={user.name} />
+                  <IconChip
+                    icon={<AccountCircleSharp fontSize="small" />}
+                    label={occurrence.user.name}
+                  />
                 </Stack>
               </Stack>
 
@@ -85,6 +95,35 @@ export default function ModalOccurrenceDetails({
                 />
               </List>
             </Stack>
+
+            {loggedUser?.role === 'employee' && occurrence.status !== 'Finalizado' && (
+              <>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => handleReplyModal(occurrenceId)}
+                >
+                  Atualizar Status
+                </Button>
+                <ModalOccurrenceReply
+                  isOpen={openReplyModal > 0 ? true : false}
+                  loggedUserId={loggedUser?.id}
+                  handleModal={handleReplyModal}
+                  handleNotification={handleNotification}
+                  handleUpdateModalData={handleUpdateModalData}
+                  occurrenceData={occurrence}
+                />
+              </>
+            )}
+
+            {occurrence.occurrenceReplies.length > 0 && (
+              <Stack spacing={1.5}>
+                <h3>Atualizações</h3>
+                {occurrence.occurrenceReplies.map((reply) => {
+                  return <Reply key={reply.id} data={reply} />;
+                })}
+              </Stack>
+            )}
           </>
         )}
       </ModalContainer>

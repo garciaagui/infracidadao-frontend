@@ -8,8 +8,7 @@ export const registerSchema = z.object({
     })
     .max(255, {
       message: 'O nome pode ter no máximo 255 caracteres',
-    })
-    .toLowerCase(),
+    }),
   email: z
     .string()
     .min(1, {

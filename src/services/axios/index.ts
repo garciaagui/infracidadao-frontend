@@ -1,3 +1,4 @@
+import { StatusType } from '@/app/home/utils/types';
 import { RegisterType } from '@/app/register/utils/types';
 import axios, { AxiosResponse } from 'axios';
 
@@ -22,6 +23,20 @@ export const requestLogin = async (email: string, password: string) => {
 
 export const requestOccurrenceCreation = async (formData: FormData) => {
   const { data } = await instance.post('/occurrences', formData);
+
+  return data;
+};
+
+export const requestOccurrenceStatusUpdate = async (id: number, newStatus: StatusType) => {
+  const { data } = await instance.patch(`/occurrences/${id}/update-status`, {
+    status: newStatus,
+  });
+
+  return data;
+};
+
+export const requestReplyCreation = async (formData: FormData) => {
+  const { data } = await instance.post('/occurrence-reply', formData);
 
   return data;
 };

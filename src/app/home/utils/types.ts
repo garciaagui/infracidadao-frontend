@@ -1,5 +1,26 @@
 export type StatusType = 'Aberto' | 'Andamento' | 'Finalizado';
 
+export type UserType = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type OccurrenceReplyType = {
+  id: number;
+  description: string;
+  imageUrl: string;
+  userId: number;
+  occurrenceId: number;
+  occurrenceStatus: Exclude<StatusType, 'Aberto'>;
+  createdAt: string;
+  updatedAt: string;
+  user: UserType;
+};
+
 export type OccurrenceType = {
   id: number;
   title: string;
@@ -13,6 +34,8 @@ export type OccurrenceType = {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  user: UserType;
+  occurrenceReplies: OccurrenceReplyType[];
 };
 
 export type TableDataType = {
@@ -22,13 +45,4 @@ export type TableDataType = {
   street: string;
   status: StatusType;
   createdAt: string;
-};
-
-export type UserType = {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  createdAt: string;
-  updatedAt: string;
 };
