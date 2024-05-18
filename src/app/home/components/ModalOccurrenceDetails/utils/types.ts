@@ -1,4 +1,4 @@
-import { OccurrenceType, UserType } from '@/app/home/utils/types';
+import { OccurrenceType, StatusType, UserType } from '@/app/home/utils/types';
 import { SeverityType } from '@/utils/types';
 import { z } from 'zod';
 import { createReplySchema } from './schemas';
@@ -21,4 +21,10 @@ export type ModalOccurrenceReplyProps = {
   occurrenceData: OccurrenceType;
 };
 
-export type CreateReplyType = z.infer<typeof createReplySchema>;
+export type CreateReplyFormType = z.infer<typeof createReplySchema>;
+
+export type CreateReplyType = {
+  userId: number;
+  occurrenceId: number;
+  occurrenceStatus: Exclude<StatusType, 'Aberto'>;
+} & CreateReplyFormType;
