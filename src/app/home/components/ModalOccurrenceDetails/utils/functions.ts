@@ -19,16 +19,13 @@ export const formatOccurrenceData = (data: OccurrenceType): OccurrenceType => {
   };
 };
 
-export const generateReplyFormData = (
-  replyData: CreateReplyType,
-  occurrenceId: number,
-  userId: number,
-): FormData => {
+export const generateReplyFormData = (data: CreateReplyType): FormData => {
   const formData = new FormData();
 
-  formData.set('description', replyData.description);
-  formData.set('occurrenceId', String(occurrenceId));
-  formData.set('userId', String(userId));
+  formData.set('description', data.description);
+  formData.set('occurrenceId', String(data.occurrenceId));
+  formData.set('occurrenceStatus', String(data.occurrenceStatus));
+  formData.set('userId', String(data.userId));
 
   if (data.imageUrl[0]) {
     formData.set('imageUrl', data.imageUrl[0]);
