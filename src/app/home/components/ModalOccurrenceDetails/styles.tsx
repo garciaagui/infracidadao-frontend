@@ -6,13 +6,14 @@ export const ModalContainer = styled.section`
   border: 2px solid #000;
   box-shadow: 24px;
   display: grid;
-  height: 1050px;
+  height: auto;
   left: 50%;
+  max-height: 90vh;
   overflow-y: auto;
   padding: 1.5rem;
   position: absolute;
   row-gap: 1.5rem;
-  top: 45%;
+  top: 50%;
   transform: translate(-50%, -50%);
   width: 700px;
 
