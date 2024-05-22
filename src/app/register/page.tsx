@@ -1,7 +1,6 @@
 'use client';
 
-import { TextField } from '@/components/Form';
-import Notification from '@/components/Notification';
+import { Loading, Notification, TextField } from '@/components';
 import { requestUserCreation } from '@/services/axios';
 import theme from '@/styles/theme';
 import { NOTIFICATION_INITIAL_STATE } from '@/utils/constants';
@@ -12,12 +11,14 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as Styled from './styles';
+import { Button, Form, Main } from './styles';
 import { registerSchema } from './utils/schemas';
 import { RegisterType } from './utils/types';
 
 export default function Register() {
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const registerForm = useForm<RegisterType>({
     resolver: zodResolver(registerSchema),
@@ -39,6 +40,8 @@ export default function Register() {
   };
 
   const register = async (data: RegisterType) => {
+    setLoading(true);
+
     try {
       await requestUserCreation(data);
       setNotification({ isOpen: true, message: 'Usuário cadastrado!', severity: 'success' });
@@ -48,24 +51,30 @@ export default function Register() {
       const message = response?.data.message;
       setNotification({ isOpen: true, message, severity: 'error' });
     }
+
+    setLoading(false);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Styled.Main>
+      <Main>
         <h1>Cadastro de usuários</h1>
         <FormProvider {...registerForm}>
-          <Styled.Form onSubmit={handleSubmit(register)} noValidate>
+          <Form onSubmit={handleSubmit(register)} noValidate>
             <TextField label="Nome" name="name" type="text" />
             <TextField label="E-mail" name="email" type="email" />
             <TextField label="Senha" name="password" type="password" />
-            <Styled.Button type="submit" variant="contained" color="primary" size="large">
-              Cadastrar
-            </Styled.Button>
-          </Styled.Form>
+            {!loading ? (
+              <Button type="submit" variant="contained" color="primary" size="large">
+                Cadastrar
+              </Button>
+            ) : (
+              <Loading />
+            )}
+          </Form>
         </FormProvider>
         <Notification closeNotification={closeNotification} {...notification} />
-      </Styled.Main>
+      </Main>
     </ThemeProvider>
   );
 }
