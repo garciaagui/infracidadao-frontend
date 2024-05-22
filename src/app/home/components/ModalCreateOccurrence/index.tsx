@@ -1,9 +1,10 @@
-import { FileField, TextField, Textarea } from '@/components';
+import { FileField, Loading, TextField, Textarea } from '@/components';
 import { requestOccurrenceCreation } from '@/services/axios';
 import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckSharp } from '@mui/icons-material';
 import { Button, Modal } from '@mui/material';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as S from './styles';
 import { generateFormData, handleZipCodeValue } from './utils/functions';
@@ -17,6 +18,8 @@ export default function ModalCreateOccurrence({
   isOpen,
   userId,
 }: ModalCreateOccurrenceProps) {
+  const [loading, setLoading] = useState(false);
+
   const occurrenceForm = useForm<CreateOccurrenceType>({
     resolver: zodResolver(createOccurrenceSchema),
   });
@@ -26,9 +29,11 @@ export default function ModalCreateOccurrence({
   const handleCloseModal = () => {
     handleModal();
     reset();
+    setLoading(false);
   };
 
   const createOccurrence = async () => {
+    setLoading(true);
     const occurrence = watch();
     const formData = generateFormData(occurrence, userId);
 
@@ -79,15 +84,19 @@ export default function ModalCreateOccurrence({
             </S.LocationFieldset>
 
             <FileField name="image" />
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              sx={{ marginTop: '1rem' }}
-              startIcon={<CheckSharp />}
-            >
-              Finalizar
-            </Button>
+            {!loading ? (
+              <Button
+                type="submit"
+                variant="contained"
+                color="success"
+                sx={{ marginTop: '1rem' }}
+                startIcon={<CheckSharp />}
+              >
+                Finalizar
+              </Button>
+            ) : (
+              <Loading />
+            )}
           </S.Form>
         </FormProvider>
       </S.ModalContainer>
