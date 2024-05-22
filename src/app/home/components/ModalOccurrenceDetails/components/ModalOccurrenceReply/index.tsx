@@ -1,10 +1,11 @@
 import { StatusType } from '@/app/home/utils/types';
-import { FileField, Textarea } from '@/components';
+import { FileField, Loading, Textarea } from '@/components';
 import { requestOccurrenceStatusUpdate, requestReplyCreation } from '@/services/axios';
 import { CustomAxiosError } from '@/utils/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as I from '@mui/icons-material';
 import { Button, Modal, Stack } from '@mui/material';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import StatusChip from '../../../StatusChip';
 import { generateReplyFormData } from '../../utils/functions';
@@ -21,6 +22,8 @@ export default function ModalOccurrenceReply({
   loggedUserId,
   occurrenceData,
 }: ModalOccurrenceReplyProps) {
+  const [loading, setLoading] = useState(false);
+
   const replyForm = useForm<CreateReplyFormType>({
     resolver: zodResolver(createReplySchema),
   });
@@ -30,9 +33,12 @@ export default function ModalOccurrenceReply({
   const handleCloseModal = () => {
     handleModal(0);
     reset();
+    setLoading(false);
   };
 
   const createReply = async () => {
+    setLoading(true);
+
     const replyData = watch();
     const { id, status } = occurrenceData;
     const newStatus: Exclude<StatusType, 'Aberto'> =
@@ -97,15 +103,20 @@ export default function ModalOccurrenceReply({
               type="text"
             />
             <FileField label="Adicione uma imagem (opcional)" name="imageUrl" />
-            <Button
-              color="success"
-              startIcon={<I.CheckSharp />}
-              sx={{ marginTop: '1rem' }}
-              type="submit"
-              variant="contained"
-            >
-              Finalizar
-            </Button>
+
+            {!loading ? (
+              <Button
+                color="success"
+                startIcon={<I.CheckSharp />}
+                sx={{ marginTop: '1rem' }}
+                type="submit"
+                variant="contained"
+              >
+                Finalizar
+              </Button>
+            ) : (
+              <Loading />
+            )}
           </Form>
         </FormProvider>
       </ModalContainer>
