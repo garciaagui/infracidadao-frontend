@@ -22,7 +22,7 @@ const ErrorMessage = styled('p')({
   marginTop: '3px',
 });
 
-export default function FileField({ name }: FileFieldProps) {
+export default function FileField({ label = 'Adicione uma imagem', name }: FileFieldProps) {
   const {
     register,
     formState: { errors },
@@ -41,7 +41,7 @@ export default function FileField({ name }: FileFieldProps) {
         sx={{ width: '100%' }}
         startIcon={<UploadSharp />}
       >
-        Adicione uma imagem
+        {label}
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
       {errors[name] && <ErrorMessage>{errorMessage}</ErrorMessage>}

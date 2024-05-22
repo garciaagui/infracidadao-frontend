@@ -96,7 +96,7 @@ export default function ModalOccurrenceReply({
               placeholder="Descreva como está o processo para a solução do problema"
               type="text"
             />
-            <FileField name="imageUrl" />
+            <FileField label="Adicione uma imagem (opcional)" name="imageUrl" />
             <Button
               color="success"
               startIcon={<I.CheckSharp />}
