@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useFormContext } from 'react-hook-form';
 import { FileFieldProps } from '../utils/types';
-//
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -22,7 +22,7 @@ const ErrorMessage = styled('p')({
   marginTop: '3px',
 });
 
-export default function FileField({ name }: FileFieldProps) {
+export default function FileField({ label, name }: FileFieldProps) {
   const {
     register,
     formState: { errors },
@@ -41,7 +41,7 @@ export default function FileField({ name }: FileFieldProps) {
         sx={{ width: '100%' }}
         startIcon={<UploadSharp />}
       >
-        Adicione uma imagem
+        {label}
         <VisuallyHiddenInput accept="image/*" type="file" {...register(name)} />
       </Button>
       {errors[name] && <ErrorMessage>{errorMessage}</ErrorMessage>}
