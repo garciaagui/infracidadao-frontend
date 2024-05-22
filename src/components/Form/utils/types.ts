@@ -1,7 +1,7 @@
 import { StandardTextFieldProps } from '@mui/material';
 
 export type FileFieldProps = {
-  label: string;
+  label?: string;
   name: string;
 };
 

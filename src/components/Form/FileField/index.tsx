@@ -22,7 +22,7 @@ const ErrorMessage = styled('p')({
   marginTop: '3px',
 });
 
-export default function FileField({ label, name }: FileFieldProps) {
+export default function FileField({ label = 'Adicione uma imagem', name }: FileFieldProps) {
   const {
     register,
     formState: { errors },
