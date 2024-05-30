@@ -15,7 +15,7 @@ export default function Admin() {
         <h1>Área do Administrador</h1>
         <Card sx={{ width: 275 }} variant="outlined">
           <CardActionArea>
-            <Link href="/new-user">
+            <Link href="/admin/new-user">
               <CardContent>
                 <Stack spacing={1}>
                   <Stack alignItems="center" direction="row" spacing={1}>
