@@ -1,7 +1,7 @@
 'use client';
 
-import { LoginRounded, LogoutRounded } from '@mui/icons-material';
-import { AppBar, Button } from '@mui/material/';
+import { AccountCircleSharp, LoginRounded, LogoutRounded } from '@mui/icons-material';
+import { AppBar, Button, Chip, Stack } from '@mui/material/';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useMemo } from 'react';
@@ -62,17 +62,26 @@ export default function Header() {
           </Button>
         </Link>
       ) : (
-        <Button
-          startIcon={<LogoutRounded />}
-          onClick={() => signOut()}
-          sx={{
-            color: 'white',
-            fontWeight: 'bold',
-            border: '1px solid',
-          }}
-        >
-          Sair
-        </Button>
+        <Stack direction="row" spacing={3} alignItems="center">
+          <Chip
+            icon={<AccountCircleSharp />}
+            label={session.token.user.name}
+            size="medium"
+            variant="filled"
+            color="primary"
+          />
+          <Button
+            startIcon={<LogoutRounded />}
+            onClick={() => signOut()}
+            sx={{
+              color: 'white',
+              fontWeight: 'bold',
+              border: '1px solid',
+            }}
+          >
+            Sair
+          </Button>
+        </Stack>
       )}
     </AppBar>
   );
