@@ -13,14 +13,14 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Form, Main } from './styles';
 import { registerSchema } from './utils/schemas';
-import { RegisterType } from './utils/types';
+import { RegisterFormType } from './utils/types';
 
 export default function Register() {
   const [notification, setNotification] = useState<NotificationType>(NOTIFICATION_INITIAL_STATE);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const registerForm = useForm<RegisterType>({
+  const registerForm = useForm<RegisterFormType>({
     resolver: zodResolver(registerSchema),
   });
 
@@ -39,11 +39,11 @@ export default function Register() {
     router.push('/home');
   };
 
-  const register = async (data: RegisterType) => {
+  const register = async (data: RegisterFormType) => {
     setLoading(true);
 
     try {
-      await requestUserCreation(data);
+      await requestUserCreation({ ...data, role: 'user' });
       setNotification({ isOpen: true, message: 'Usuário cadastrado!', severity: 'success' });
       await login(data.email, data.password);
     } catch (error) {
