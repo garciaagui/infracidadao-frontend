@@ -15,3 +15,10 @@ export type NotificationType = {
   message: string;
   severity: SeverityType;
 };
+
+export type RegisterType = {
+  name: string;
+  email: string;
+  password: string;
+  role: 'user' | 'employee' | 'admin';
+};
