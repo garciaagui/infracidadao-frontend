@@ -1,18 +1,26 @@
 'use client';
 
-import { LoginRounded, LogoutRounded } from '@mui/icons-material';
-import { AppBar, Button } from '@mui/material/';
+import { AccountCircleSharp, LoginRounded, LogoutRounded } from '@mui/icons-material';
+import { AppBar, Button, Chip, Stack } from '@mui/material/';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useMemo } from 'react';
 import logo from '../../../public/logo.png';
 import { Link, Menu } from './styles';
-
-const onClick = () => {
-  window.alert('Página em desenvolvimento');
-};
+import { ADMIN_ELEMENTS, DEFAULT_ELEMENTS } from './utils/constants';
 
 export default function Header() {
   const { data: session } = useSession();
+
+  const elements = useMemo(() => {
+    const role = session?.token.user.role;
+
+    if (role === 'admin') {
+      return ADMIN_ELEMENTS;
+    }
+
+    return DEFAULT_ELEMENTS;
+  }, [session]);
 
   return (
     <AppBar
@@ -29,21 +37,15 @@ export default function Header() {
       <Image src={logo} alt="logo" width={150} height={50} />
 
       <Menu>
-        <Link href={'/home'}>
-          <Button color="inherit" sx={{ fontWeight: 'bold' }}>
-            Início
-          </Button>
-        </Link>
-        <Link href={'/home'} onClick={onClick}>
-          <Button color="inherit" sx={{ fontWeight: 'bold' }}>
-            Perfil
-          </Button>
-        </Link>
-        <Link href={'/home'} onClick={onClick}>
-          <Button color="inherit" sx={{ fontWeight: 'bold' }}>
-            Minhas reclamações
-          </Button>
-        </Link>
+        {elements.map(({ href, label }, index) => {
+          return (
+            <Link key={index} href={href}>
+              <Button color="inherit" sx={{ fontWeight: 'bold' }}>
+                {label}
+              </Button>
+            </Link>
+          );
+        })}
       </Menu>
 
       {!session ? (
@@ -60,17 +62,26 @@ export default function Header() {
           </Button>
         </Link>
       ) : (
-        <Button
-          startIcon={<LogoutRounded />}
-          onClick={() => signOut()}
-          sx={{
-            color: 'white',
-            fontWeight: 'bold',
-            border: '1px solid',
-          }}
-        >
-          Sair
-        </Button>
+        <Stack direction="row" spacing={3} alignItems="center">
+          <Chip
+            icon={<AccountCircleSharp />}
+            label={session.token.user.name}
+            size="medium"
+            variant="filled"
+            color="primary"
+          />
+          <Button
+            startIcon={<LogoutRounded />}
+            onClick={() => signOut()}
+            sx={{
+              color: 'white',
+              fontWeight: 'bold',
+              border: '1px solid',
+            }}
+          >
+            Sair
+          </Button>
+        </Stack>
       )}
     </AppBar>
   );

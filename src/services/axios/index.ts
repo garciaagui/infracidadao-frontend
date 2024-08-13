@@ -1,5 +1,5 @@
 import { StatusType } from '@/app/home/utils/types';
-import { RegisterType } from '@/app/register/utils/types';
+import { RegisterType } from '@/utils/types';
 import axios, { AxiosResponse } from 'axios';
 
 const instance = axios.create({
